@@ -1,0 +1,145 @@
+/* General Body and Font Styles */
+body {
+    font-family: 'Inter', sans-serif; /* Menggunakan font Inter, fallback ke sans-serif */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Set minimum height to 100% of viewport height */
+    background-image: linear-gradient(to bottom, #292524, #262626); /* stone-900 ke neutral-800 */
+    color: #e0e0e0; /* Warna teks default yang lebih terang */
+    overflow-x: hidden; /* Mencegah scroll horizontal */
+}
+
+input,
+button,
+label,
+select,
+textarea {
+    font-family: 'Inter', sans-serif;
+    /* font-size: inherit; */ /* Opsional: Jika Anda ingin font-size default yang sama untuk form elements */
+}
+
+/* Navigation Bar */
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #171717; /* Neutral-900 */
+    height: 60px; /* H-15 (15 * 4px = 60px) */
+    padding: 8px 16px; /* px-4 py-2 */
+    color: #e0e0e0; /* Neutral-200 */
+}
+
+.navbar h1 {
+    font-weight: bold;
+    font-size: 24px; /* text-2xl */
+    margin: 0;
+}
+
+.navbar-links a {
+    color: #e0e0e0; /* Neutral-200 */
+    font-size: 24px; /* text-2xl */
+    margin-left: 16px; /* space-x-4 */
+    transition: color 0.2s ease-in-out;
+}
+
+.navbar-links a:hover {
+    color: #9ca3af; /* Gray-400 */
+}
+
+/* Main Content Area */
+.main-content {
+    flex-grow: 1; /* flex-grow */
+    padding-top: 40px; /* pt-10 */
+    /* --- PERBAIKAN: margin-left harus punya unit (misal px) atau dihapus jika tidak diinginkan --- */
+    /* margin-left: 40px; */ /* Dihapus atau tambahkan unit jika ingin indentasi */
+    text-align: center;
+    color: #e0e0e0; /* Neutral-200 */
+    font-weight: bold;
+    overflow-y: auto;
+    background-color: rgba(38, 38, 38, 0.7); /* Neutral-800 with opacity */
+}
+
+.main-content h1.dashboard-title {
+    font-size: 30px; /* text-3xl */
+    margin-bottom: 24px; /* mb-6 */
+}
+
+/* --- PERBAIKAN: Grid Layout for Dashboard Cards (sesuaikan dengan HTML baru) --- */
+/* Nama kelas diubah menjadi .dashboard-grid-simple seperti di HTML yang baru */
+.dashboard-grid-simple {
+    display: grid;
+    /* Sekarang hanya 3 kolom untuk Volt, Current, Power */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px 40px; /* gap-y-4 px-20 gap-x-10 (approx) */
+    padding: 0 80px; /* px-20 */
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto; /* Tengah */
+    /* min-height tidak lagi fixed 640px karena chart dihapus, biarkan konten menentukan */
+    /* min-height: calc(100vh - 60px - 60px - 40px - 24px); /* (vh - navbar - footer - pt-10 - mb-6) approx */
+    align-items: start; /* Pastikan item dimulai dari atas */
+    box-sizing: border-box; /* Pastikan padding dihitung dalam lebar */
+}
+
+/* Individual Dashboard Cards */
+.dashboard-card {
+    background-color: #171717; /* Neutral-900 */
+    height: 200px; /* h-50 (50 * 4px = 200px) */
+    border-radius: 16px; /* rounded-2xl */
+    padding: 16px; /* p-4 */
+    display: flex;
+    /* --- PERBAIKAN: Ganti column-span dengan grid-column --- */
+    /* Karena sudah 3 kolom di grid-template-columns, span 1 sudah cukup */
+    /* Jika ingin kartu tetap 2 kolom, maka grid-template-columns harus tetap 6 dan digipot/relay ambil 4 */
+    /* Saya akan asumsikan Anda ingin setiap kartu mengambil 1 kolom di grid 3-kolom yang baru */
+    grid-column: span 1 / span 1; /* Setiap kartu ambil 1 kolom dari 3 yang tersedia */
+    /* Atau hapus baris ini jika mereka otomatis mengambil 1fr */
+    /* Jika Anda ingin 3 kartu mengisi 6 kolom (misal 2 kolom per kartu), kembalikan grid-template-columns ke 6 dan grid-column ke span 2 */
+    /* grid-column: span 2 / span 2; */ /* Uncomment ini jika dashboard-grid-simple kembali 6 kolom */
+    /* --- END PERBAIKAN --- */
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box; /* Include padding in element's total width and height */
+}
+
+.dashboard-card span {
+    font-size: 18px; /* text-xl */
+}
+
+.dashboard-card h2 {
+    font-size: 48px; /* text-5xl */
+    font-weight: bold;
+    margin: auto 0; /* my-auto */
+}
+
+.dashboard-card .label {
+    font-size: 14px; /* text-sm */
+    color: #9ca3af; /* Gray-400 */
+}
+
+/* Specific Card Colors */
+.voltage-text { color: #60a5fa; } /* Blue-400 */
+.current-text { color: #4ade80; } /* Green-400 */
+.power-text { color: #fbbf24; } /* Amber-400 */
+.digipot-text { color: #a855f7; } /* Purple-400 */
+
+/* --- PERBAIKAN: Control Sections (Digipot & Relay) - kelas baru --- */
+.control-section-full-row { /* Kelas baru yang saya sarankan di HTML */
+    grid-column: span 3 / span 3; /* Ini akan membuat kontrol menempati seluruh lebar grid (3 kolom) */
+    background-color: #171717;
+    padding: 20px;
+    padding-bottom: 30px;
+    border-radius: 16px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Kontrol Digipot dan Relay berdampingan */
+    gap: 40px; /* Jarak antar Digipot & Relay, disesuaikan dari gap-x-10 */
+    margin-top: 16px; 
+}
+
+footer {
+  text-align: center;
+}

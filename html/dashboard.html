@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Smart Energy Monitoring</title>
+  
+  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet"> 
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6TaYgqgpfmYVft+tvUfpecsGaQfaIIkwdVNnSfNTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  </head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <h1>Smart Energy Monitoring</h1>
+    </div>
+    <div class="navbar-links">
+      <a href="{{ url_for('logout') }}" class="logout-link">
+        <i class="fa-solid fa-right-from-bracket"></i>
+      </a>
+    </div>
+  </nav>
+
+  <div class="main-content"> 
+    <h1 class="dashboard-title">DASHBOARD MONITORING</h1>
+    <div class="dashboard-grid-simple">
+      
+      <div class="dashboard-card">
+        <span>VOLTAGE</span>
+        <h2 id="liveVoltage" class="voltage-text">{{ data.load_voltage | default(0.0) | round(2) }} V</h2>
+        <span class="label">Battery Voltage</span>
+      </div>
+      
+      <div class="dashboard-card">
+        <span>CURRENT</span>
+        <h2 id="liveCurrent" class="current-text">{{ data.current_mA | default(0.0) | round(2) }} mA</h2>
+        <span class="label">Battery Current</span>
+      </div>
+      
+      <div class="dashboard-card">
+        <span>POWER</span>
+        <h2 id="livePower" class="power-text">{{ data.power_W | default(0.0) | round(2) }} W</h2>
+        <span class="label">Battery Power</span>
+      </div>
+      
+      <div class="control-section-full-row">
+        <div class="control-card control-card-expanded">
+          <h1>THRESHOLD CONTROL (Digipot)</h1>
+          <form id="digipotControlForm" class="control-form">
+            <div class="form-group">
+                <label for="digipot_slider">Wiper Position (0-99):</label>
+                <input type="range" id="digipot_slider" name="digipot_value"
+                        min="0" max="99" step="1"
+                        value="{{ data.digipot_value | default(50) }}">
+                <output id="digipotOutput" class="digipot-text range-output">{{ data.digipot_value | default(50) }}</output>
+            </div>
+            
+            <button type="submit" class="submit-btn">
+                Set Digipot
+            </button>
+            <span id="digipotControlMessage" class="message-span"></span>
+          </form>
+        </div>
+        
+        <div class="control-card control-card-expanded">
+            <h1>POWER CONTROL (Relay)</h1>
+            <div class="relay-control-content">
+                <span id="relayStatusDisplay" class="relay-status 
+                    {% if data.relay_status == 'ON' %} relay-status-on
+                    {% else %} relay-status-off {% endif %}">
+                    STATUS: {{ data.relay_status | default('OFF') }}
+                </span>
+                <div class="relay-buttons">
+                    <button onclick="controlRelay('on')" class="relay-on-btn">
+                        Turn ON
+                    </button>
+                    <button onclick="controlRelay('off')" class="relay-off-btn">
+                        Turn OFF
+                    </button>
+                </div>
+            </div>
+            <span id="relayControlMessage" class="message-span"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      Tugas Besar - Pemrograman II
+    </div>
+  </footer>
+
+  </body>
+</html>
